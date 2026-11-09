@@ -5,7 +5,7 @@ Administração de Banco de Dados e Processamento de Transações
 Desafio prático: a última vaga | PostgreSQL
 
 
-######################################################################################################################
+#########################################################################################
 
 
 Entregar: desafios T1 e T2: roteiros SQL de COMMIT e ROLLBACK, consultas de verificação, sequência das sessões A/B na disputa pela última vaga, resultados observados e diagnóstico inicial. Registre dúvidas e erros para discussão.
