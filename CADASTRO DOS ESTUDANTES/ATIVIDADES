@@ -1,0 +1,34 @@
+CADASTRO DOS ESTUDANTES 
+--INSERT INTO lab_inscricoes.estudantes (nome)
+VALUES
+('Breno souza'),
+('Pedro Henrique'),
+('Lucas Oliveira'),
+('Mariana Costa'),
+('Ana Beatriz'),
+('Joao Victor'),
+('Gabriel Santos'),
+('Maria Eduarda'),
+('Rafael Lima'),
+('Julia Martins');
+
+CADASTRO DAS ATIVIDADES 
+--INSERT INTO lab_inscricoes.atividades
+(nome, capacidade)
+VALUES
+('Oficina de PostgreSQL', 1),
+('Introducao ao Python', 20),
+('Desenvolvimento Web', 15);
+
+CONFIRMAÇAO DOS DADOS: 
+--SELECT
+    'Estudantes' AS tabela,
+    COUNT(*) AS quantidade
+FROM lab_inscricoes.estudantes
+
+UNION ALL
+
+SELECT
+    'Atividades',
+    COUNT(*)
+FROM lab_inscricoes.atividades;
