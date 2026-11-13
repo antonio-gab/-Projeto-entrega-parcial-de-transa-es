@@ -1,0 +1,108 @@
+criaçao do schema:
+CREATE SCHEMA lab_inscricoes;
+\\\
+criaçao da tabela estudantes dentro do schema "lab_inscriçoes":
+
+CREATE TABLE lab_inscricoes.estudantes (    ---> criaçao da tabela chamada estudantes dentro do schema 
+    id_estudante INTEGER PRIMARY KEY,       ---> "id_esrudante = nome da coluna \\ interger = comando que aceita numeros inteiros \\ primary key indentifica que os estudantes sao valores nao nulos e nem duplicados
+    nome TEXT NOT NULL                      ---> indentifica o nome e impede que tenha valores vazios
+);
+
+obs: No comando a cima a nos usamos a primary key pra indentificar de forma unica os registros em vez de INTEGER que define apenas um tipo de dado
+\\\
+criaçao da tabela atividades:
+
+CREATE TABLE lab_inscricoes.atividades (
+    id_atividade INTEGER PRIMARY KEY, 
+    nome TEXT NOT NULL,
+    capacidade INTEGER NOT NULL CHECK (capacidade > 0)
+);
+\\\ 
+criaçao da tabela inscriçoes:
+
+CREATE TABLE lab_inscricoes.inscricoes (
+    id_inscricao INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    id_estudante INTEGER NOT NULL,
+    id_atividade INTEGER NOT NULL,
+    situacao TEXT NOT NULL DEFAULT 'ativa',
+
+    FOREIGN KEY (id_estudante)
+        REFERENCES lab_inscricoes.estudantes(id_estudante),
+
+    FOREIGN KEY (id_atividade)
+        REFERENCES lab_inscricoes.atividades(id_atividade),
+
+    CHECK (situacao IN ('ativa', 'cancelada'))
+);
+\\\
+Inserçao dos estudantes na tabela:
+
+INSERT INTO lab_inscricoes.estudantes
+    (id_estudante, nome)
+VALUES
+    (1, 'Joao Silva'),
+    (2, 'Maria Santos'),
+    (3, 'Pedro Oliveira'),
+    (4, 'Ana Costa'),
+    (5, 'Lucas Ferreira'),
+    (6, 'Julia Almeida'),
+    (7, 'Gabriel Souza'),
+    (8, 'Beatriz Lima'),
+    (9, 'Rafael Martins'),
+    (10, 'Camila Rocha');
+\\\
+inserçao das atividades:
+
+INSERT INTO lab_inscricoes.atividades
+    (id_atividade, nome, capacidade)
+VALUES
+    (1, 'Banco de Dados', 1),
+    (2, 'Python', 20),
+    (3, 'Engenharia de Software', 15);
+
+\\\
+consulta:
+
+SELECT * FROM lab_inscricoes.estudantes;
+\\
+SELECT * FROM lab_inscricoes.atividades;
+\\
+SELECT id_atividade, nome
+FROM lab_inscricoes.atividades
+WHERE id_atividade = 1;
+\\\
+teste ROLLBACK:
+
+BEGIN;  --> inicia uma transaçao
+
+UPDATE lab_inscricoes.atividades  -->altera o nome da atividade
+SET nome = 'Oficina PostgreSQL - teste ROLLBACK'
+WHERE id_atividade = 1;
+
+SELECT id_atividade, nome --->alteraçao da trasaçao
+FROM lab_inscricoes.atividades
+WHERE id_atividade = 1;
+
+ROLLBACK;
+
+SELECT id_atividade, nome ---> verifica o nome 
+FROM lab_inscricoes.atividades
+WHERE id_atividade = 1;
+\\\
+teste COMMIT:
+
+BEGIN;
+
+UPDATE lab_inscricoes.atividades
+SET nome = 'Oficina PostgreSQL'
+WHERE id_atividade = 1;
+
+SELECT id_atividade, nome
+FROM lab_inscricoes.atividades
+WHERE id_atividade = 1;
+
+COMMIT;
+
+SELECT id_atividade, nome
+FROM lab_inscricoes.atividades
+WHERE id_atividade = 1;
